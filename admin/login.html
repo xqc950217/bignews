@@ -39,5 +39,45 @@
   </div>
 
 </body>
+<script>
+   $(function(){
+    //  登录功能
+    $(".input_sub").click(function(e){
+      // 阻止按钮建默认跳转行为
+       e.preventDefault();
+      //  用户名
+      var username=$(".input_txt").val().trim();
+      // 密码
+      var password=$(".input_pass").val().trim();
+      // 判断非空
+      if(username===""||password===""){
+        alert("写点东西呗");
+        return;
+      }
+      // 不为空
+      $.ajax({
+        url:"http://localhost:8080/api/v1/admin/user/login",
+        type:"POST",
+        data:{
+          username:username,
+          password:password
+        },
+        success:function(backData){
+          console.log(backData);
+          // 判断密码是否正确
+          if(backData.code===400){
+            // 错误
+            alert(backData.msg);
+          }else if(backData.code===200){
+            window.location.href="./index.html";
+
+          }
+
+        }
+
+      })
+    })
+   })
+</script>
 
 </html>
