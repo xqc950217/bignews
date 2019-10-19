@@ -60,13 +60,47 @@
     // 下拉菜单的获取 
     // jQ对象.eq(index)     ---> 获取指定索引的标签（元素）
     // slideToggle() 方法通过使用滑动效果（高度变化）来切换元素的可见状态。
-   // 如果被选元素是可见的，则隐藏这些元素，如果被选元素是隐藏的，则显示这些元素。 
-    $(".level01").eq(1).click(function(){
+   // 如果被选元素是可见的，则隐藏这些元素，如果被选元素是隐藏的，则显示这些元素。
+   $(function(){
+        $(".level01").eq(1).click(function(){
         $(this).next().slideToggle();
     })
     // 点击高亮
     $(".level01").click(function(){
         $(this).addClass("active").siblings().removeClass("active");
     })
+ //  获取用户信息
+    $.ajax({
+      url:"http://localhost:8080/api/v1/admin/user/info",
+     
+      headers:{
+        Authorization:window.localStorage.getItem('token')
+      },
+      success:function(backData){
+          console.log(backData);
+        // 设置左侧的头像和名字
+        $(".user_info>img").attr('src',backData.data.userPic);
+        $(".user_info>span").text('欢迎  '+backData.data.nickname);
+        // 右侧顶部的头像
+        $(".user_center_link>img").attr('src',backData.data.userPic);
+
+
+      },
+    //   请求失败之后的回调函数
+    error:function(backData){
+        console.log("我错啦!");
+        console.log(backData);
+        if(backData.statusText==="Forbidden"){
+            alert("走开");
+            window.location.herf="./login.html";
+        }
+    }
+
+  })  ;
+});
+
+ 
+  
+   
 </script>
 </html>

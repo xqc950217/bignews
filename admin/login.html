@@ -70,6 +70,7 @@
             alert(backData.msg);
           }else if(backData.code===200){
             window.location.href="./index.html";
+            window.localStorage.setItem("token",backData.token);
 
           }
 
